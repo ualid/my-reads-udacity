@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 import Panel from './components/Panel'
@@ -20,7 +20,7 @@ class BooksApp extends React.Component {
   changePage = val => {
     this.setState({ showSearchPage: val })
   }
-
+ 
   render() {
     return (
       <div className="app">
@@ -33,25 +33,23 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Panel panelTitle="Currently Reading" 
+                <Panel 
+                  data={BooksAPI.getAll()}
+                />
+                {/*<Panel panelTitle="Want to Read" 
                        urlImage="http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api" 
                        bookTitle="To Kill a Mockingbird"
                        bookAuthor="Harper Lee"
                 />
-                 <Panel panelTitle="Want to Read" 
+                <Panel panelTitle="Read" 
                        urlImage="http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api" 
                        bookTitle="To Kill a Mockingbird"
                        bookAuthor="Harper Lee"
-                 />
-                 <Panel panelTitle="Read" 
-                       urlImage="http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api" 
-                       bookTitle="To Kill a Mockingbird"
-                       bookAuthor="Harper Lee"
-                 />
+                /> */}
               </div>
             </div>
 
-            <ButtonAdd changePage={this.changePage} />
+            <ButtonAdd  changePage={this.changePage} />
 
           </div>
         )}
