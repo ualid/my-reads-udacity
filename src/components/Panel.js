@@ -3,7 +3,7 @@ import Book from './Book'
 
 class Panel extends React.Component {
 
-    state = {
+   /* state = {
         panels: [
             {
                 books: [{
@@ -74,25 +74,28 @@ class Panel extends React.Component {
                 this.addBook(data)
             }
         })
-    }
+    }*/
 
     render() {
         return (
-            this.state.panels.map((panel, index) => (
-                panel.panelTitle !== '' &&
-                (<div className="bookshelf" key={index}>
-                    <h2 className="bookshelf-title">{panel.panelTitle}</h2>
+            //this.props.panels.map((panel, index) => (
+                this.props.panelTitle !== '' &&
+                (<div className="bookshelf" key={this.props.id}>
+                    <h2 className="bookshelf-title">{this.props.panelTitle}</h2>
                     <div className="bookshelf-books">
                         <ol className="books-grid">
-
-                            {panel.books.map((book, index) => (
+                      
+                            {this.props.books.map((book, index) => (
                                 book.id !== undefined && (
                                     <li key={index}>
                                         <Book
+                                            changeBookShelf={this.props.changeBookShelf}
                                             key={book.id}
+                                            id={book.id}
                                             image={book.url}
                                             title={book.title}
                                             author={book.author}
+                                            shelf={this.props.panelTitle}
                                         />
                                     </li>
                                 )
@@ -102,7 +105,7 @@ class Panel extends React.Component {
                     </div>
                 </div>)
 
-            ))
+          //  ))
         )
     }
 }

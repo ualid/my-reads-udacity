@@ -1,18 +1,18 @@
 import React from 'react';
 
 function Book(props){	
-    	
+       const options = ["currentlyReading", "wantToRead", "read", "none"]
+       
         return (
             <div className="book">
              <div className="book-top">
               <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${props.image}")` }}></div>
               <div className="book-shelf-changer">
-                <select>
+                <select value={props.shelf} onChange={(event) => props.changeBookShelf(props.id, event.target.value)}>
                   <option value="move" disabled>Move to...</option>
-                  <option value="currentlyReading">Currently Reading</option>
-                  <option value="wantToRead">Want to Read</option>
-                  <option value="read">Read</option>
-                  <option value="none">None</option>
+                  {options.map((option, index) => (
+                  <option key={index} value={option} >{option}</option>
+                  ))}
                 </select>
               </div>
             </div>
