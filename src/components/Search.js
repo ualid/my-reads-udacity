@@ -25,8 +25,8 @@ class Search extends React.Component {
             this.setState({ 'booksStore': this.props.datas });
         }
     }
-    componentWillReceiveProps(someProp) {
-        this.setState({ 'booksStore': someProp.datas });
+    componentWillReceiveProps(props) {
+        this.setState({ 'booksStore': props.datas });
     }
     getBookByName = (name) => {
 
@@ -52,7 +52,7 @@ class Search extends React.Component {
     getShelf(book) {
         var currentShelf = String('none');
 
-        for (let it of this.state.booksStore) {
+        for (var it of this.state.booksStore) {
             if (it.id === book.id) {
                 currentShelf = it.shelf;
                 break;
