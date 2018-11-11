@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Book(props){	
-       const options = ["currentlyReading", "wantToRead", "read", "none"]
+const Book = (props) => {	
+       const options = ["currentlyReading", "wantToRead", "read", "none"];
        
         return (
             <div className="book">
@@ -17,8 +18,20 @@ function Book(props){
               </div>
             </div>
             <div className="book-title">{props.title}</div>
-            <div className="book-authors">{props.author}</div>
+             {props.author.map((value, index) => (
+          <div className="book-authors" key = {index}>{value}</div>
+          
+             ))}       
           </div>
         );
     }
-export default Book
+
+  Book.propTypes = {
+    shelf: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired, 
+    title: PropTypes.string.isRequired, 
+    author: PropTypes.array.isRequired, 
+    changeBookShelf: PropTypes.func.isRequired
+};
+  
+export default Book;

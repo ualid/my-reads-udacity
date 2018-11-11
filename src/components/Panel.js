@@ -1,101 +1,27 @@
-import React from 'react'
-import Book from './Book'
+import React from 'react';
+import Book from './Book';
+import PropTypes from 'prop-types';
 
-class Panel extends React.Component {
-
-   /* state = {
-        panels: [
-            {
-                books: [{
-
-                }],
-                panelTitle: ''
-            }
-        ]
-    }
-
-    componentWillMount() {
-        this.props.data.then(
-            data =>
-                this.createPanel(data)
-        )
-    }
-
-    addPanel(data) {
-        const panel =
-        {
-            books: [{
-
-            }],
-            panelTitle: data.shelf
-        }
-        this.setState(currState => ({
-            ...currState.panels.push(panel)
-        }))
-
-
-    }
-    addBook(data) {
-        const positionPanel = this.getPositionPanel(this.state.panels, data.shelf)
-        const panel = this.state.panels[positionPanel]
-        const titleBook = data.title
-        const authorBook = data.authors
-        const idBook = data.id
-        const urlBook = data.imageLinks['thumbnail']
-        const book = []
-        book['title'] = titleBook
-        book['author'] = authorBook
-        book['id'] = idBook
-        book['url'] = urlBook
-
-        panel.books.push(book)
-        this.setState(currState => ({
-            ...currState.panels[positionPanel] = panel
-        }))
-    }
-    verifyIfExistPanel(panels, titleSearch) {
-        return panels.filter(panel => panel.panelTitle === titleSearch).length > 0
-    }
-    getPositionPanel(panels, titleSearch) {
-        var positionPanel = -1
-        panels.map((panel, index) => {
-            if (panel.panelTitle === titleSearch) {
-                positionPanel = index
-            }
-        })
-        return positionPanel
-    }
-    createPanel(datas) {
-        datas.map((data, index) => {
-            if (this.verifyIfExistPanel(this.state.panels, data.shelf)) {
-                this.addBook(data)
-            } else {
-                this.addPanel(data)
-                this.addBook(data)
-            }
-        })
-    }*/
-
-    render() {
+const Panel = props => {
+ 
         return (
-            //this.props.panels.map((panel, index) => (
-                this.props.panelTitle !== '' &&
-                (<div className="bookshelf" key={this.props.id}>
-                    <h2 className="bookshelf-title">{this.props.panelTitle}</h2>
+                props.panelTitle !== '' &&
+                (<div className="bookshelf" key={props.id}>
+                    <h2 className="bookshelf-title">{props.panelTitle}</h2>
                     <div className="bookshelf-books">
                         <ol className="books-grid">
                       
-                            {this.props.books.map((book, index) => (
+                            {props.books.map((book, index) => (
                                 book.id !== undefined && (
                                     <li key={index}>
                                         <Book
-                                            changeBookShelf={this.props.changeBookShelf}
+                                            changeBookShelf={props.changeBookShelf}
                                             key={book.id}
                                             id={book.id}
                                             image={book.url}
                                             title={book.title}
                                             author={book.author}
-                                            shelf={this.props.panelTitle}
+                                            shelf={props.panelTitle}
                                         />
                                     </li>
                                 )
@@ -104,10 +30,14 @@ class Panel extends React.Component {
                         </ol>
                     </div>
                 </div>)
-
-          //  ))
-        )
-    }
+        );
 }
 
-export default Panel
+Panel.propTypes = {
+    panelTitle: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    books: PropTypes.array.isRequired,
+    changeBookShelf: PropTypes.func.isRequired
+};
+
+export default Panel;
