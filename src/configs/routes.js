@@ -8,3 +8,5 @@ const routes = (
          <Route path='/search' component={Search} />
     </Route>
 );
+
+export default routes;

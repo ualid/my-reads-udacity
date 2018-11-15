@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 
 class Search extends React.Component {
 
@@ -16,23 +17,17 @@ class Search extends React.Component {
     };
 
     componentWillMount() {
-        if (this.props.datas === undefined) {
-            const booksStore = BooksAPI.getAll();
-            booksStore.then(data => {
-                this.setState({ 'booksStore': data })
-            });
-        } else {
-            this.setState({ 'booksStore': this.props.datas });
-        }
+   
+            this.setState({ booksStore: this.props.datas });
     }
     componentWillReceiveProps(props) {
-        this.setState({ 'booksStore': props.datas });
+        this.setState({ booksStore: props.datas });
     }
-    getBookByName = (name) => {
+    getBookByName = debounce((name) => {
 
         if (name === '') {
             const books = [];
-            this.setState({ 'books': books });
+            this.setState({ books: books });
             return true;
         }
 
@@ -42,13 +37,14 @@ class Search extends React.Component {
                 if (books.hasOwnProperty('error')) {
                     books = [];
                 }
-                this.setState({ 'books': books });
+                
+                this.setState({ books: books });
             }
             ).catch(() => {
-                this.setState({ 'books': [] });
+                this.setState({ books: [] });
             });
          
-    }
+    }, 500)
     getShelf(book) {
         var currentShelf = String('none');
 
@@ -60,15 +56,17 @@ class Search extends React.Component {
         }
         return currentShelf;
     }
-    changeBookShelf = (idBook, shelf) => {
-        const newDatas = BooksAPI.update(idBook, shelf);
-        newDatas.then(() => {
+    changeBookShelf = async (idBook, shelf) => {
+        await BooksAPI.update(idBook, shelf);
+        const data = await BooksAPI.getAll();
+        this.setState({ booksStore: data })
+        /*newDatas.then(() => {
             const data = BooksAPI.getAll();
             data.then(
                 data =>
-                    this.setState({ 'booksStore': data })
+                    this.setState({ booksStore: data })
             );
-        });
+        });*/
     }
 
     render() {
@@ -83,9 +81,8 @@ class Search extends React.Component {
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {this.state.books.map((book, index) => (
-                            book.hasOwnProperty('authors') && (
+                            (book.hasOwnProperty('authors') && book.hasOwnProperty('imageLinks') ) && (
                             <Book
-                            
                                 key={index}
                                 changeBookShelf={this.props.changeBookShelf}
                                 id={book.id}

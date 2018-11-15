@@ -34,12 +34,9 @@ class BooksApp extends React.Component {
     }))
   }
  
-  componentWillMount() {
-    const data = BooksAPI.getAll();
-    data.then(
-      data =>
-        this.createPanel(data)
-    );
+  async componentDidMount() {
+    const data = await BooksAPI.getAll();
+    this.createPanel(data);
   }
 
   addPanel(data) {
@@ -90,7 +87,7 @@ class BooksApp extends React.Component {
   }
   createPanel(datas) {
     this.clearState();
-    this.setState({'allBooks':datas});
+    this.setState({allBooks: datas});
     datas.map(data => {
       if (this.verifyIfExistPanel(this.state.panels, data.shelf)) {
         this.addBook(data);
@@ -101,23 +98,17 @@ class BooksApp extends React.Component {
     })
   }
 
-  changeBookShelf = (idBook, shelf) => {
-    const newDatas = BooksAPI.update(idBook, shelf);
-    newDatas.then(() => {
-      const data = BooksAPI.getAll();
-      data.then(
-        data =>
-          this.createPanel(data)
-      );
-    });
-  }
+   changeBookShelf = async (idBook, shelf) => {
+    await BooksAPI.update(idBook, shelf);
+    const data = await BooksAPI.getAll();
+    this.createPanel(data)
+   }
  
 
   render() {
     return (
       <div className="app">
-           <Route exact path='/search/' render={ () => (<Search datas={this.state.allBooks} changeBookShelf={this.changeBookShelf}/>)}
-            />
+           <Route exact path='/search/' render={ () => (<Search datas={this.state.allBooks} changeBookShelf={this.changeBookShelf}/>)}/>
              <Route exact path='/' render={() => (
                
                 <div className="list-books">
